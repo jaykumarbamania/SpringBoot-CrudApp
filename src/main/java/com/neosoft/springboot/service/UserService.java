@@ -7,12 +7,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.neosoft.springboot.controller.CompareByName;
 import com.neosoft.springboot.model.User;
 
 @Service
+@CacheConfig(cacheNames = "users")
 public class UserService {
 	
 	private List<User> users= new ArrayList<User>(Arrays.asList(
@@ -61,6 +64,22 @@ public class UserService {
 		
 		Comparator<User> comparebyId = Comparator.comparing(User::getId).reversed();
 		return users.stream().sorted(comparebyId).collect(Collectors.toList());
+	}
+	
+//	=========Testing Spring bootcache ==============
+	
+	@Cacheable
+	public List<User> findAll(){
+		slowService();
+		return this.users;
+	}
+	
+	private void slowService() {
+		try {
+			Thread.sleep(3000L);
+		}catch(InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 

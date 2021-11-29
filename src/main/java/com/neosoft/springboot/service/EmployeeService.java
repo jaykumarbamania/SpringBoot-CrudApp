@@ -35,13 +35,13 @@ public class EmployeeService {
 		employeeRepo.deleteById(id);
 	}
 	
-	public Employee updateEmployee(Employee emp,long id) {
+	public void updateEmployee(Employee emp,long id) {
 //		employeeRepo.findById(id).orElseThrow(() -> new Exception("Problem"));
 		Employee existingEmp = employeeRepo.findById(id).orElse(null);
 		existingEmp.setEmail(emp.getEmail());
 		existingEmp.setFirstName(emp.getFirstName());
 		existingEmp.setLastName(emp.getLastName());
-		return employeeRepo.save(existingEmp);
+		employeeRepo.save(existingEmp);
 	}
 	
 	public List<Employee> sortById() {

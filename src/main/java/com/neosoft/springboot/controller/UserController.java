@@ -67,4 +67,9 @@ public class UserController {
 		return userService.sortById();
 	}
 	
+	@GetMapping("/all")
+	public List<User> getAllUsers(){
+		return userService.findAll();
+	}
+	
 }
